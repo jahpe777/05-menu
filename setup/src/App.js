@@ -3,37 +3,30 @@ import Menu from './Menu';
 import Categories from './Categories';
 import items from './data';
 
-const allCategories = [
-  'all',
-  ...new Set(
-    items.map((item) => {
-      return item.category;
-    })
-  ),
-];
+const allCategories = ['all', ...new Set(items.map((item) => item.category))];
 
 function App() {
-  const [foods, setFoods] = useState(items);
-  const [groups, setGroups] = useState(allCategories);
+  const [menuItems, setMenuItems] = useState(items);
+  const [categories, setCategories] = useState(allCategories);
 
-  const filterFoods = (category) => {
+  const filterItems = (category) => {
     if (category === 'all') {
-      setFoods(items);
+      setMenuItems(items);
       return;
     }
-    setFoods(items.filter((item) => item.category === category));
+    const newItems = items.filter((item) => item.category === category);
+    setMenuItems(newItems);
   };
 
   return (
-    <main style={{ textAlign: 'center' }}>
-      <section>
-        <div>
+    <main>
+      <section className="menu section">
+        <div className="title">
           <h2>Our Menu</h2>
+          <div className="underline"></div>
         </div>
-        <Categories groups={groups} filterFoods={filterFoods} />
-      </section>
-      <section>
-        <Menu foods={foods} />
+        <Categories categories={categories} filterItems={filterItems} />
+        <Menu items={menuItems} />
       </section>
     </main>
   );
